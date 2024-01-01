@@ -11,7 +11,7 @@
 
     - Directorio bin/: Contiene scripts ejecutables, como el archivo console, que se utiliza para ejecutar comandos de consola de Symfony.
     
-    - Directorio config/: Contiene archivos de configuración para la aplicación. El archivo config.yml es fundamental y se utiliza para configurar parámetros y servicios.
+    - Directorio config/: Contiene archivos de configuración para la aplicación. El archivo services.yml es fundamental y se utiliza para configurar parámetros y servicios.
     
     - Directorio src/: Aquí es donde reside el código fuente de la aplicación. La estructura dentro de src/ generalmente sigue la convención de paquetes de PHP (PSR-4).
     
