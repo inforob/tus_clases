@@ -48,7 +48,7 @@
     
     - Interactividad: Algunos comandos pueden ser interactivos, solicitando información al usuario durante su ejecución.
     
-    - Eventos de Consola: Symfony dispara eventos de consola que permiten la personalización y extensión del comportamiento de la consola.
+    - !* Eventos de Consola: Symfony dispara eventos de consola que permiten la personalización y extensión del comportamiento de la consola. https://symfony.com/doc/current/components/console/events.html
     
     
 ### MakerBundle
