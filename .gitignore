@@ -9,4 +9,10 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> directorio de phpstorm ###
 .idea/
+###< directorio de phpstorm ###
+
+###> Makefile ###
+Makefile
+###< Makefile ###
