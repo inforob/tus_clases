@@ -16,3 +16,7 @@
 ###> Makefile ###
 Makefile
 ###< Makefile ###
+
+###> migration ###
+migrations
+###< migration ###
