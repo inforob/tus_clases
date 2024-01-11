@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Cliente;
 use App\Form\ClienteType;
 use App\Repository\ClienteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,15 +21,15 @@ class PersonalController extends AbstractController
         private readonly RequestStack $requestStack)
     {}
 
-    #[Route('/clientes/{clientId}', name: '_clientes', requirements: ['clientId' => '\d+'], methods: ["GET"])]
-    public function clientes(string $clientId): Response
+    #[Route('/clientes/show/{clientId}', name: '_clientes', requirements: ['clientId' => '\d+'], methods: ["GET"])]
+    public function cliente(string $clientId): Response
     {
         return $this->render("clientes/index.html.twig",[
             'clientId' => $clientId,
         ]);
     }
 
-    #[Route('/clientes/nuevo', name: '_clientes_nuevo', methods: ["GET","POST"])]
+    #[Route('/clientes/crear', name: '_clientes_nuevo', methods: ["GET","POST"])]
     public function nuevo_cliente(): Response
     {
         $form = $this->createForm(ClienteType::class);
@@ -47,6 +49,45 @@ class PersonalController extends AbstractController
 
         return $this->render("clientes/nuevo/index.html.twig",[
             'form' => $form->createView(),
+        ]);
+    }
+
+
+    #[Route('/clientes/listar/ajax', name: '_clientes_listado_ajax', methods: ["GET"])]
+    public function clientesAjax(ClienteRepository $clienteRepository): JsonResponse
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        $draw = $request->query->get('draw');
+        $start = $request->query->get('start');
+        $length = $request->query->get('length');
+
+        $clientesPaginated = $clienteRepository->paginate($start,$length);
+
+        return $this->json([
+            'draw' => $draw,
+            'recordsTotal' => $clientesPaginated->count(),
+            'recordsFiltered' => $clientesPaginated->count(),
+            'data' => array_map(function ($cliente){
+                /** @var Cliente $cliente */
+                return [
+                    $cliente->getId(),
+                    $cliente->getNif(),
+                    $cliente->getNombre(),
+                    $cliente->getPersonaContacto(),
+                    $cliente->getCreatedAt()->format('Y-m-d H:i'),
+                    $cliente->getUpdatedAt()->format('Y-m-d H:i')
+                ];
+            }, $clientesPaginated->getQuery()->getResult())
+        ]);
+    }
+
+
+    #[Route('/clientes/listar', name: '_clientes_listado', methods: ["GET"])]
+    public function clientes(ClienteRepository $clienteRepository): Response
+    {
+        return $this->render("clientes/list.html.twig",[
+            'clientes' => $clienteRepository->findAll()
         ]);
     }
 

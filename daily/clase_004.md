@@ -9,3 +9,7 @@ de manera dinámica y con filtros aplicados.
     - Llamadas Ajax, que son y para que sirven
     - Renderizado server side en Datatables
 
+
+### Faker
+composer require fakerphp/faker
+
