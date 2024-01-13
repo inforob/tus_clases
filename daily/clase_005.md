@@ -30,3 +30,11 @@ Son extensiones de código que ayudan a Twig a procesar con funciones y métodos
  - Functions
 
 
+### Pasos a seguir
+
+- Cambiar el Datatable a renderizado normal
+- Redirigir desde un registro cliente hacia el endpoint de visualización de cliente
+- Comprobar que MapEntity se comporta como se espera
+- Crear entidad Empleado con al menos 4 campos incluidos el createdAt y el updatedAt
+- Actualizar el esquema de base de datos
+- Actualizar la información del endpoint para que muestre la información de Cliente
