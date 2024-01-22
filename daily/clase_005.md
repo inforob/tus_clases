@@ -32,9 +32,15 @@ Son extensiones de código que ayudan a Twig a procesar con funciones y métodos
 
 ### Pasos a seguir
 
+#### DoctrineMappings
 - Cambiar el Datatable a renderizado normal
 - Redirigir desde un registro cliente hacia el endpoint de visualización de cliente
 - Comprobar que MapEntity se comporta como se espera
 - Crear entidad Empleado con al menos 4 campos incluidos el createdAt y el updatedAt
 - Actualizar el esquema de base de datos
 - Actualizar la información del endpoint para que muestre la información de Cliente
+
+#### TwigExtension
+- Identificar la variable a utilizar
+- Crear el filtro o la función en Twig
+- Diseñar un método que realice la acción que estamos buscando, en este caso, es utilizar la primera parte del email de usuario como identificador.
