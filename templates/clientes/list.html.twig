@@ -3,17 +3,20 @@
 {% block javascripts %}
     <script>
         $(document).ready( function () {
-            $('#clientes').DataTable({
-                ajax: '{{ path('personal_clientes_listado_ajax') }}',
-                processing: true,
-                serverSide: true
-            });
+            {#$('#clientes').DataTable({#}
+            {#    ajax: '{{ path('personal_clientes_listado_ajax') }}',#}
+            {#    processing: true,#}
+            {#    serverSide: true#}
+            {#});#}
 
-            // $('#clientes').DataTable(); renderizado normal
+            $('#clientes').DataTable();
         } );
     </script>
 {% endblock %}
 {% block body %}
+<div class="col-12">
+    <span>Hola, <b>{{ app.user.email|get_user_name }}</b> Hoy es {{ get_user_greetings("now"|date('Y-m-d H:i:s')) }}</b> </span>
+</div>
 <table style="border: 1px;background-color: burlywood" id="clientes">
     <thead>
         <tr>
@@ -30,7 +33,7 @@
 
             {% for cliente in clientes %}
             <tr>
-                <td><b>{{ cliente.id }}</b></td>
+                <td><a href="{{ path('personal_clientes',{'clientId':cliente.id}) }}"><b>{{ cliente.id }}</b></a></td>
                 <td>{{ cliente.nif }}</td>
                 <td>{{ cliente.nombre }}</td>
                 <td>{{ cliente.personaContacto }}</td>

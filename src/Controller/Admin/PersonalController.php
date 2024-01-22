@@ -6,6 +6,7 @@ use App\Entity\Cliente;
 use App\Form\ClienteType;
 use App\Repository\ClienteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,10 +23,12 @@ class PersonalController extends AbstractController
     {}
 
     #[Route('/clientes/show/{clientId}', name: '_clientes', requirements: ['clientId' => '\d+'], methods: ["GET"])]
-    public function cliente(string $clientId): Response
+    public function cliente(
+        #[MapEntity(mapping: ['clientId' => 'id'])]Cliente $cliente
+    ): Response
     {
-        return $this->render("clientes/index.html.twig",[
-            'clientId' => $clientId,
+        return $this->render("clientes/show.html.twig",[
+            'cliente' => $cliente,
         ]);
     }
 
