@@ -7,9 +7,11 @@ namespace App\EventSubscriber;
 
 use App\Entity\User;
 use App\Event\UserEmailForSendEvent;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 class UserEventsSubscriber implements EventSubscriberInterface
@@ -30,7 +32,7 @@ class UserEventsSubscriber implements EventSubscriberInterface
      */
     public function onVerifyEmail(UserEmailForSendEvent $event): void
     {
-        $this->emailForReset(
+        $this->emailForSignUp(
             $event->getUser(),
             'emails/verificar.html.twig'
         );
@@ -40,13 +42,18 @@ class UserEventsSubscriber implements EventSubscriberInterface
     /**
      * @throws TransportExceptionInterface
      */
-    private function emailForReset(User $userForReset, string $template = null) : void
+    private function emailForSignUp(User $userForSignUp, string $template = null) : void
     {
-        $email = (new Email())
-            ->from('no-responder@solucionesia.com')
-            ->to($userForReset->getEmail())
-            ->subject('Prueba de envío de emails para symfony')
-            ->html('Esto es un <b>texto</b> de prueba para probar mailtrap');
+        $email = (new TemplatedEmail())
+            ->from('no-responder@tuapp.com')
+            ->to(new Address($userForSignUp->getEmail()))
+            ->subject('Se necesita verificar email')
+
+            // path of the Twig template to render
+            ->htmlTemplate('emails/signup.html.twig')
+            ->context([
+                'user' => $userForSignUp
+            ]);
 
         $this->mailer->send($email);
 

@@ -12,8 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    private const USER_IS_ACTIVE = true;
-    private const USER_IS_NOT_ACTIVE = false;
+    public const USER_IS_ACTIVE = true;
+    public const USER_IS_NOT_ACTIVE = false;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

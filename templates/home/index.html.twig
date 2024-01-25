@@ -9,6 +9,13 @@
 </style>
 
 <div class="example-wrapper">
+
+    {% for flash_message in app.session.flashbag.get('success') %}
+        <div class="flash-notice">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
     <h1>Hello {{ controller_name }}! ✅</h1>
 
     This friendly message is coming from:

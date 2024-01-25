@@ -1,6 +1,6 @@
 ### UserChecker
 
-- autorizar usuarios con UserChecker
+- autorizar usuarios con UserChecker 
 
 ### Activación de Usuarios por email
 
