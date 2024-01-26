@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\UserEmailForSendEvent;
+use App\Form\UserEmailFormType;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -11,7 +12,6 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -19,8 +19,7 @@ class UserController extends AbstractController
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly EventDispatcherInterface $eventDispatcher
     )
     {}
 
@@ -31,16 +30,7 @@ class UserController extends AbstractController
         $usuarioForm->handleRequest($this->requestStack->getCurrentRequest());
         if($usuarioForm->isSubmitted() && $usuarioForm->isValid()){
 
-                /** @var User $user */
-                $user = $usuarioForm->getData();
-
-                $encodedPassword = $this->userPasswordHasher->hashPassword(
-                    $user,
-                    $user->getPassword()
-                );
-                $user->setPassword($encodedPassword);
-
-                $this->entityManager->persist($user);
+                $this->entityManager->persist($usuarioForm->getData());
                 $this->entityManager->flush();
 
                 $this->eventDispatcher->dispatch(
@@ -70,5 +60,45 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
+    #[Route('/olvido/clave', name: 'olvido_clave',methods: ["GET","POST"])]
+    public function olvido(): Response
+    {
+        $usuarioEmailForm = $this->createForm(UserEmailFormType::class);
+        $usuarioEmailForm->handleRequest($this->requestStack->getCurrentRequest());
+
+        if($usuarioEmailForm->isSubmitted() && $usuarioEmailForm->isValid()){
+
+            $emailForFind = $usuarioEmailForm->get('email')->getData();
+
+            $userForResetPassword = $this->entityManager->getRepository(User::class)
+                ->findOneBy([
+                    'email' => $emailForFind,
+                    'activo' => User::USER_IS_ACTIVE
+                ]);
+
+            if(null === $userForResetPassword){
+                $this->addFlash('error','El usuario no existe.');
+            }
+
+            $this->eventDispatcher->dispatch(
+                new UserEmailForSendEvent($userForResetPassword),
+                UserEmailForSendEvent::USER_RESET_ACTION
+            );
+
+            $this->addFlash('success','Se ha enviado un email de cambio de clave.');
+
+            return $this->redirectToRoute('olvido_clave');
+        }
+
+        return $this->render('usuario/reset/forgot.html.twig',[
+            'usuarioEmailForm' => $usuarioEmailForm->createView()
+        ]);
+
+    }
+
+    #[Route('/cambiar/clave/{token}', name: 'cambiar_clave')]
+    public function cambioClave(#[MapEntity(mapping: ['token' => 'token'])]User $userForChangePassword): Response {
+        dd($userForChangePassword);
+    }
 
 }

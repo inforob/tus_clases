@@ -176,4 +176,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $token;
     }
+
+    public function reset(): self
+    {
+        $this->activo = User::USER_IS_NOT_ACTIVE;
+        $this->token = $this->generateRandomToken();
+
+        return $this;
+    }
 }
