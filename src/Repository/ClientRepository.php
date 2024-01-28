@@ -2,24 +2,24 @@
 
 namespace App\Repository;
 
-use App\Entity\Cliente;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Cliente>
+ * @extends ServiceEntityRepository<Client>
  *
- * @method Cliente|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cliente|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cliente[]    findAll()
- * @method Cliente[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Client|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Client|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Client[]    findAll()
+ * @method Client[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ClienteRepository extends ServiceEntityRepository
+class ClientRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cliente::class);
+        parent::__construct($registry, Client::class);
     }
 
 

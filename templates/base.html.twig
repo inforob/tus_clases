@@ -48,6 +48,7 @@
         </nav>
     </div>
 
+    {% block section %}
     <section class="section dashboard">
         <div class="row">
 
@@ -63,8 +64,9 @@
 
         </div>
     </section>
+    {% endblock %}
 
-</main><!-- End #main -->
+</main>
 
 {% include 'footer.html.twig' %}
 
