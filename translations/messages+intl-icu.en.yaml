@@ -1,0 +1,7 @@
+# translations/messages+intl-icu.en.yaml
+num_of_beers: >-
+  {beers, plural,
+      =0    {There are no beers}
+      =1    {There is one beer...}
+      other {There are # beers!}
+  }
