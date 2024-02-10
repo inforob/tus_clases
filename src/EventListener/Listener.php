@@ -15,7 +15,10 @@ final class Listener
 
         $lang = $request->query->get('lang');
 
-        $request->setLocale($lang);
+        if(!empty($lang)){
+            $request->setLocale($lang);
+        }
+
 
     }
 }
