@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EmployeeController!{% endblock %}
+
+{% block section %}
+    <section id="employee">
+        <div class="">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    <label for="{{ form.name.vars.id }}">{% trans from 'employee' %}Name{% endtrans %}</label>
+                    {{ form_widget(form.name,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.name,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.lastName.vars.id }}">{% trans from 'employee' %}lastName{% endtrans %}</label>
+                    {{ form_widget(form.lastName,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.lastName,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.web.vars.id }}">{% trans from 'employee' %}Web{% endtrans %}</label>
+                    {{ form_widget(form.web,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.web,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.urlLinkedin.vars.id }}">{% trans from 'employee' %}Url Linkedin{% endtrans %}</label>
+                    {{ form_widget(form.urlLinkedin,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.urlLinkedin,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.dni.vars.id }}">{% trans from 'employee' %}DNI{% endtrans %}</label>
+                    {{ form_widget(form.dni,{'attr':{'class':'form-control'}}) }}
+                    {{ form_errors(form.dni,{'attr':{'class':'form-control'}}) }}
+                </div>
+                <div class="mt-5">
+                    <button class="btn btn-primary">Enviar</button>
+                </div>
+                {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}
